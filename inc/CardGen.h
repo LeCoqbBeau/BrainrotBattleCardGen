@@ -18,7 +18,13 @@ public:
 	CardGen&operator=(const CardGen &rhs);
 	~CardGen();
 
+	// Methods
+	void shellStart();
+
 private:
 };
+
+std::string userInput(const std::string &msg, bool(*check)(std::string));
+bool userInputBypass(std::string str);
 
 #endif //CARDGEN

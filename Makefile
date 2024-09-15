@@ -4,7 +4,7 @@ INCLUDES = inc/
 
 RAYLIB = $(INCLUDES)libraylib.a
 
-CPP_FLAGS = -I$(INCLUDES) -Wall -Werror -Wextra -std=c++98 $(RAYLIB)
+CPP_FLAGS = -I$(INCLUDES) -Wall -Werror -Wextra
 CC = c++
 
 SRC_DIR = src/
@@ -25,7 +25,7 @@ $(OBJ_DIR)%.o:$(SRC_DIR)%.cpp
 	@echo "\033[1;36m Compiled" $<
 
 $(NAME): $(OBJ)
-	@c++ $(CPP_FLAGS) -o $(NAME) $(OBJ)
+	@c++ $(CPP_FLAGS) -o $(NAME) $(OBJ) $(RAYLIB)
 	@echo "\033[1;32m Executable" $(NAME) "created"
 
 clean:
