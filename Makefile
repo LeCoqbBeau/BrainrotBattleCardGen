@@ -4,7 +4,7 @@ INCLUDES = inc/
 
 RAYLIB = $(INCLUDES)libraylib.a
 
-CPP_FLAGS = -I$(INCLUDES) -Wall -Werror -Wextra
+CPP_FLAGS = -I$(INCLUDES) -Wall -Werror -Wextra -g
 CC = c++
 
 SRC_DIR = src/

@@ -2,29 +2,41 @@
 # define CARDGEN_H
 
 # include <iostream>
+# include <fstream>
 # include <string>
-# include "colors.h"
+# include <unistd.h>
 
 # include "raylib.h"
 # include "raymath.h"
 # include "rlgl.h"
 
+# include "colors.h"
+
+# define WIDTH 800
+# define HEIGHT 500
+
 class CardGen
 {
 public:
-	// Orthodox Canonical Form
+	// Constructors
 	CardGen();
-	CardGen(const CardGen &src);
-	CardGen&operator=(const CardGen &rhs);
 	~CardGen();
 
+	// Static
+
 	// Methods
-	void shellStart();
+	void render(const std::string &kit);
 
 private:
+	Texture2D _card;
+	Font _kitFont;
+	Texture2D _statFont[13];
+	void _prepare();
+	void _drawStats(const std::string &kit);
+	void _writeStats(const std::string &numptr, Vector2 pos, Color tint);
 };
 
-std::string userInput(const std::string &msg, bool(*check)(std::string));
-bool userInputBypass(std::string str);
+std::string userInput(const std::string &msg, bool(*check)(const std::string &));
+bool userInputBypass(const std::string& str);
 
 #endif //CARDGEN
