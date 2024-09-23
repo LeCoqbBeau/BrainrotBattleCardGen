@@ -18,7 +18,7 @@ int	main(int argc, char *argv[])
 		catch (std::exception &e) {
 			std::cout << fRED "Failed to created " << fBRED << argv[i] << fCLR << std::endl << e.what() << std::endl;
 		}
-		sleep(1);
+//		sleep(1);
 	}
 
 }
