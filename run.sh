@@ -13,6 +13,7 @@ fi
 cd "$user_dir" || exit
 
 list=()
+last_valid=""
 
 # Find all unique names of files that have both .png and .stat files
 for file in *.png; do
@@ -22,6 +23,7 @@ for file in *.png; do
     if [ -f "$character_name.stat" ]; then
         # Add the character name to the list array
         list+=("$character_name")
+        last_valid="$character_name"
     fi
 done
 
@@ -30,10 +32,10 @@ cd .. || exit
 make
 
 # Print the list (for debugging purposes)
-echo "${list[@]}"
+# echo "${list[@]}"
 
 # Run the CardGen program with the list of character names, ensuring all elements are passed correctly
 ./CardGen "${list[@]}" > /dev/null
 
 # Open the output for the last processed character
-open "output/${character_name}.png"
+open "output/${last_valid}.png"
