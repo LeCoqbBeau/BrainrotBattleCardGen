@@ -1,4 +1,6 @@
 obj/
 .idea/
 template/
+user/
+output/
 CardGen
