@@ -26,9 +26,9 @@ done
 
 cd ..
 
-make
 
-echo $list
+
+make
 
 ./CardGen $list > /dev/null
 

@@ -28,6 +28,9 @@ CardGen::CardGen() {
 		image = LoadImage("template/write/slash.png");
 		_statFont[12] = LoadTextureFromImage(image);
 		UnloadImage(image);
+		image = LoadImage("template/write/comma.png");
+		_statFont[13] = LoadTextureFromImage(image);
+		UnloadImage(image);
 	}
 }
 
@@ -166,6 +169,8 @@ void CardGen::_writeStats(const std::string &numptr, Vector2 pos, Color tint)
 			texture = _statFont[11];
 		else if (it == '/')
 			texture = _statFont[12];
+		else if (it == ',')
+			texture = _statFont[13];
 		else
 			continue;
 		DrawTextureV(texture, pos, tint);
