@@ -16,9 +16,9 @@ int	main(int argc, char *argv[])
 			cardGen.render(argv[i]);
 		}
 		catch (std::exception &e) {
-			std::cout << fRED "Failed to created ";
-			std::cout << fBRED << argv[i] << fCLR << std::endl;
+			std::cout << fRED "Failed to created " << fBRED << argv[i] << fCLR << std::endl << e.what() << std::endl;
 		}
+		sleep(1);
 	}
 
 }

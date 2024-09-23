@@ -10,9 +10,9 @@ if [ ! -d "$user_dir" ]; then
 fi
 
 # Go to the user directory
-cd "$user_dir"
+cd "$user_dir" || exit
 
-list=""
+list=()
 
 # Find all unique names of files that have both .png and .stat files
 for file in *.png; do
@@ -20,16 +20,20 @@ for file in *.png; do
 
     # Check if there is a corresponding .stat file for this character
     if [ -f "$character_name.stat" ]; then
-        list+=" \"$character_name\""
+        # Add the character name to the list array
+        list+=("$character_name")
     fi
 done
 
-cd ..
-
-
+cd .. || exit
 
 make
 
-./CardGen $list > /dev/null
+# Print the list (for debugging purposes)
+echo "${list[@]}"
 
-open "output/$character_name.png"
+# Run the CardGen program with the list of character names, ensuring all elements are passed correctly
+./CardGen "${list[@]}" > /dev/null
+
+# Open the output for the last processed character
+open "output/${character_name}.png"
