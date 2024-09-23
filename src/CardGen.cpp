@@ -111,8 +111,8 @@ static Color statToColor(double value, int step)
 			upperBound = 400;
 			break;
 		case 3: // PWR
-			lowerBound = 100;
-			upperBound = 400;
+			lowerBound = 0;
+			upperBound = 500;
 			break;
 		case 4: // DEF
 			lowerBound = 50;

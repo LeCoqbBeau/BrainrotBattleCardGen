@@ -30,4 +30,4 @@ make
 
 ./CardGen $list > /dev/null
 
-open "$character_name"
+open "output/$character_name.png"
