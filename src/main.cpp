@@ -12,8 +12,13 @@ int	main(int argc, char *argv[])
 	CardGen cardGen;
 
 	for (int i = 1; i < argc; ++i) {
-		cardGen.render(argv[i]);
-//		sleep(3);
+		try {
+			cardGen.render(argv[i]);
+		}
+		catch (std::exception &e) {
+			std::cout << fRED "Failed to created ";
+			std::cout << fBRED << argv[i] << fCLR << std::endl;
+		}
 	}
 
 }

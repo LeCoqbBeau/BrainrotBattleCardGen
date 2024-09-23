@@ -20,13 +20,15 @@ for file in *.png; do
 
     # Check if there is a corresponding .stat file for this character
     if [ -f "$character_name.stat" ]; then
-        list+=" $character_name"
+        list+=" \"$character_name\""
     fi
 done
 
 cd ..
 
 make
+
+echo $list
 
 ./CardGen $list > /dev/null
 
