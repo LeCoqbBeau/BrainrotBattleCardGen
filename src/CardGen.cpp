@@ -9,7 +9,7 @@ CardGen::CardGen() {
 	this->_card = LoadTextureFromImage(image);
 	UnloadImage(image);
 	this->_kitFont = LoadFont("template/telegrama_render.otf");
-	{
+	{ // Load all textures
 		std::string texturePath;
 		for (int i = 0; i <= 9; ++i) {
 			texturePath = "template/write/";
@@ -119,11 +119,11 @@ static Color statToColor(double value, int step)
 			break;
 		case 4: // DEF
 			lowerBound = 50;
-			upperBound = 400;
+			upperBound = 450;
 			break;
 		case 5: // RES
 			lowerBound = 50;
-			upperBound = 400;
+			upperBound = 450;
 			break;
 		case 6: // SPEED
 			lowerBound = 75;
