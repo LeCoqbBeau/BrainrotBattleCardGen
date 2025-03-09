@@ -9,7 +9,7 @@ CardGen::CardGen() {
 	this->_card = LoadTextureFromImage(image);
 	UnloadImage(image);
 	this->_kitFont = LoadFont("template/telegrama_render.otf");
-	{ // Load all textures
+	{
 		std::string texturePath;
 		for (int i = 0; i <= 9; ++i) {
 			texturePath = "template/write/";
@@ -19,18 +19,6 @@ CardGen::CardGen() {
 			_statFont[i] = LoadTextureFromImage(image);
 			UnloadImage(image);
 		}
-		image = LoadImage("template/write/s.png");
-		_statFont[10] = LoadTextureFromImage(image);
-		UnloadImage(image);
-		image = LoadImage("template/write/%.png");
-		_statFont[11] = LoadTextureFromImage(image);
-		UnloadImage(image);
-		image = LoadImage("template/write/slash.png");
-		_statFont[12] = LoadTextureFromImage(image);
-		UnloadImage(image);
-		image = LoadImage("template/write/comma.png");
-		_statFont[13] = LoadTextureFromImage(image);
-		UnloadImage(image);
 	}
 }
 
@@ -101,52 +89,39 @@ static Color statToColor(double value, int step)
 	double lowerBound;
 	double upperBound;
 	switch (step) {
-		case 0: // HPS
+		case 0: // PVS
 			lowerBound = 1500;
-			upperBound = 3500;
+			upperBound = 4500;
 			break;
-		case 1: // RGN
-			lowerBound = 0;
-			upperBound = 100;
+		case 1: // ATK
+			lowerBound = 150;
+			upperBound = 450;
 			break;
-		case 2: // ATK
-			lowerBound = 100;
-			upperBound = 400;
+		case 2: // DEF
+			lowerBound = 150;
+			upperBound = 450;
 			break;
 		case 3: // PWR
 			lowerBound = 0;
-			upperBound = 500;
+			upperBound = 750;
 			break;
-		case 4: // DEF
-			lowerBound = 50;
+		case 4: // RES
+			lowerBound = 150;
 			upperBound = 450;
 			break;
-		case 5: // RES
-			lowerBound = 50;
-			upperBound = 450;
-			break;
-		case 6: // SPEED
-			lowerBound = 75;
+		case 5: // SPD
+			lowerBound = 70;
 			upperBound = 200;
-			break;
-		case 9: // Pen
-			lowerBound = 0;
-			upperBound = 500;
-			break;
-		default: // LETHALITY and Every percentage
-			lowerBound = 0;
-			upperBound = 100;
 			break;
 	}
 	Color color;
+	if (value == 0.0)
+		return ColorFromHSV(0, 0, 0.7);
 	if (lowerBound >= value)
-	{
-		color = ColorFromHSV(0, 0, 0.7);
-		return color;
-	}
+		value = lowerBound;
 	if (value > upperBound)
 		value = upperBound;
-	float hue = (value)/(upperBound);
+	float hue = (value - lowerBound)/(upperBound - lowerBound);
 	hue = Remap(hue, 0, 1, 0, HUE_MAX);
 	color = ColorFromHSV(hue, 0.75, 1);
 	return color;
@@ -160,23 +135,10 @@ void CardGen::_writeStats(const std::string &numptr, Vector2 pos, Color tint)
 	{
 		if (it >= '0' && it <= '9')
 			texture = _statFont[it - '0'];
-		else if (it == 's')
-		{
-			texture = _statFont[10];
-			pos.y += 6;
-		}
-		else if (it == '%')
-			texture = _statFont[11];
-		else if (it == '/')
-			texture = _statFont[12];
-		else if (it == ',')
-			texture = _statFont[13];
 		else
 			continue;
 		DrawTextureV(texture, pos, tint);
-		pos.x += 21;
-		if (it == 's')
-			pos.y += 10;
+		pos.x += 33;
 	}
 }
 
@@ -193,24 +155,28 @@ void CardGen::_drawStats(const std::string &kit) {
 	Color statShadowTint = {23, 23, 23, 255};;
 
 	double stat;
-	for (int i = 0; i < 13; ++i) {
+	for (int i = 0; i < 6; ++i) {
 		std::getline(file, numptr);
 		numptr = &numptr[5];
 		stat = std::stod(numptr);
 		stat = floor(stat);
 		tint = statToColor(stat, i);
 		barLength = ColorToHSV(tint).x;
-		barLength = Remap(barLength, 0, HUE_MAX, 15, 370);
+		barLength = Remap(barLength, 0, HUE_MAX, 10, 358);
 		barLength = round(barLength);
 		texture = LoadTextureFromImage(image);
 
 		BeginDrawing();
 		for (int j = 0; j < barLength; ++j) {
-			DrawTexture(texture, 405 + j, 104 + i * 30, tint);
+			Vector3 tmpColor = ColorToHSV(tint);
+			tmpColor.x += 0.125 * j;
+			std::cout << j << ": " << tmpColor.x << std::endl;
+			Color realTint = ColorFromHSV(tmpColor.x, tmpColor.y, tmpColor.z);
+			DrawTexture(texture, 465 + j, 135 + i * 60, realTint);
 		}
 		for (int j = 0; j < 50; ++j) {
-			_writeStats(numptr, (Vector2){420, (float)(104 + i * 30)}, statShadowTint);
-			_writeStats(numptr, (Vector2){418, (float)(102 + i * 30)}, statMainTint);
+			_writeStats(numptr, (Vector2){500, (float)(115 + i * 60)}, statShadowTint);
+			_writeStats(numptr, (Vector2){497, (float)(112 + i * 60)}, statMainTint);
 		}
 		EndDrawing();
 

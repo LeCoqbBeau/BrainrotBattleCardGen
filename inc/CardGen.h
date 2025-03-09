@@ -17,23 +17,23 @@
 
 class CardGen
 {
-public:
-	// Constructors
-	CardGen();
-	~CardGen();
+	public:
+		// Constructors
+		CardGen();
+		~CardGen();
 
-	// Static
+		// Static
 
-	// Methods
-	void render(const std::string &kit);
+		// Methods
+		void render(const std::string &kit);
 
-private:
-	Texture2D _card;
-	Font _kitFont;
-	Texture2D _statFont[14];
-	void _prepare();
-	void _drawStats(const std::string &kit);
-	void _writeStats(const std::string &numptr, Vector2 pos, Color tint);
+	private:
+		Texture2D _card;
+		Font _kitFont;
+		Texture2D _statFont[10];
+		void _prepare();
+		void _drawStats(const std::string &kit);
+		void _writeStats(const std::string &numptr, Vector2 pos, Color tint);
 };
 
 std::string userInput(const std::string &msg, bool(*check)(const std::string &));
